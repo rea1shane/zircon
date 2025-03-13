@@ -1,6 +1,6 @@
-# eriner
+# zircon
 
-A fork of the Powerline-inspired [agnoster] theme.
+A fork of the Zim official theme [eriner](https://github.com/zimfw/eriner).
 
 The aim of this theme is to only show you _relevant_ information. Like most
 prompts, it will only show git information when in a git working directory.
@@ -16,12 +16,12 @@ running in this shell will all be displayed automatically when appropriate.
   - `✘` when there was an error.
   - `⚡` when you're root.
   - `⚙` when there are background jobs.
-  - `r` when you're in a [ranger] spawned shell.
-  - Python [venv] indicator.
+  - `r` when you're in a [ranger](https://github.com/ranger/ranger) spawned shell.
+  - Python [venv](https://docs.python.org/3/library/venv.html) indicator.
   - `username@hostname` when in a ssh session.
 - Working directory segment.
 - Git segment (background color varies if working tree is clean or dirty):
-  - Current branch name, or commit short hash when in ['detached HEAD' state].
+  - Current branch name, or commit short hash when in ['detached HEAD' state](https://git-scm.com/docs/git-checkout#_detached_head).
   - `±` when in a dirty working tree.
 
 ## Settings
@@ -39,7 +39,7 @@ variable. If the variable is not defined, the respective default value is used.
 ## Advanced settings
 
 You can customize how the current working directory is shown with the
-[prompt-pwd module settings].
+[prompt-pwd module settings](https://github.com/zimfw/prompt-pwd/blob/master/README.md#settings).
 
 The git indicators can be customized by changing the following git-info module
 context formats:
@@ -56,7 +56,7 @@ Use the following command to override a git-info context format:
     zstyle ':zim:git-info:<context_name>' format '<new_format>'
 
 For detailed information about these and other git-info settings, check the
-[git-info documentation].
+[git-info documentation](https://github.com/zimfw/git-info/blob/master/README.md#settings).
 
 These advanced settings must be overridden after the theme is initialized.
 
@@ -64,17 +64,7 @@ These advanced settings must be overridden after the theme is initialized.
 
 In order for this theme to render correctly, a font with Powerline symbols is
 required. A simple way to install a font with Powerline symbols is to follow the
-[instructions here].
+[instructions here](https://github.com/powerline/fonts/blob/master/README.rst#installation).
 
-Requires Zim's [prompt-pwd] module to show the current working directory, and
-[git-info] to show git information.
-
-[agnoster]: https://github.com/agnoster/agnoster-zsh-theme
-[ranger]: https://github.com/ranger/ranger
-[venv]: https://docs.python.org/3/library/venv.html
-['detached HEAD' state]: https://git-scm.com/docs/git-checkout#_detached_head
-[prompt-pwd module settings]: https://github.com/zimfw/prompt-pwd/blob/master/README.md#settings
-[git-info documentation]: https://github.com/zimfw/git-info/blob/master/README.md#settings
-[instructions here]: https://github.com/powerline/fonts/blob/master/README.rst#installation
-[prompt-pwd]: https://github.com/zimfw/prompt-pwd
-[git-info]: https://github.com/zimfw/git-info
+Requires Zim's [prompt-pwd](https://github.com/zimfw/prompt-pwd) module to show the current working directory, and
+[git-info](https://github.com/zimfw/git-info) to show git information.
