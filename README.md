@@ -13,7 +13,7 @@ running in this shell will all be displayed automatically when appropriate.
 ## What does it show?
 
 - Status segment:
-  - `✘` when there was an error.
+  - Exit code when there was an error.
   - `⚡` when you're root.
   - `⚙` when there are background jobs.
   - `r` when you're in a [ranger](https://github.com/ranger/ranger) spawned shell.
