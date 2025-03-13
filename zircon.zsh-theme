@@ -1,14 +1,14 @@
 # vim:et sts=2 sw=2 ft=zsh
 
-_prompt_eriner_main() {
+_prompt_zircon_main() {
   # This runs in a subshell
   RETVAL=${?}
   BG_COLOR=
 
-  _prompt_eriner_status
-  _prompt_eriner_pwd
-  _prompt_eriner_git
-  _prompt_eriner_end
+  _prompt_zircon_status
+  _prompt_zircon_pwd
+  _prompt_zircon_git
+  _prompt_zircon_end
 }
 
 ### Segment drawing
@@ -16,14 +16,14 @@ _prompt_eriner_main() {
 
 # Begin a segment. Takes two arguments, background color and contents of the
 # new segment.
-_prompt_eriner_segment() {
+_prompt_zircon_segment() {
   print -n "%K{${1}}"
   if [[ -n ${BG_COLOR} ]] print -n "%F{${BG_COLOR}}"
   print -n ${2}
   BG_COLOR=${1}
 }
 
-_prompt_eriner_standout_segment() {
+_prompt_zircon_standout_segment() {
   print -n "%S%F{${1}}"
   if [[ -n ${BG_COLOR} ]] print -n "%K{${BG_COLOR}}%k"
   print -n "${2}%s"
@@ -31,7 +31,7 @@ _prompt_eriner_standout_segment() {
 }
 
 # End the prompt, closing last segment.
-_prompt_eriner_end() {
+_prompt_zircon_end() {
   print -n "%k%F{${BG_COLOR}}%f "
 }
 
@@ -41,7 +41,7 @@ _prompt_eriner_end() {
 
 # Status: Was there an error? Am I root? Are there background jobs? Ranger
 # spawned shell? Python venv activated? Who and where am I (user@hostname)?
-_prompt_eriner_status() {
+_prompt_zircon_status() {
   local segment=
   if (( RETVAL )) segment+=' %F{red}✘'
   if (( EUID == 0 )) segment+=' %F{yellow}⚡'
@@ -50,19 +50,19 @@ _prompt_eriner_status() {
   if [[ -n ${VIRTUAL_ENV} ]] segment+=" %F{cyan}${VIRTUAL_ENV:t}"
   if [[ -n ${SSH_TTY} ]] segment+=" %F{%(!.yellow.default)}%n@%m"
   if [[ -n ${segment} ]]; then
-    _prompt_eriner_segment ${STATUS_COLOR} ${segment}' '
+    _prompt_zircon_segment ${STATUS_COLOR} ${segment}' '
   fi
 }
 
 # Pwd: current working directory.
-_prompt_eriner_pwd() {
+_prompt_zircon_pwd() {
   local current_dir
   prompt-pwd current_dir
-  _prompt_eriner_standout_segment ${PWD_COLOR} ' '${current_dir}' '
+  _prompt_zircon_standout_segment ${PWD_COLOR} ' '${current_dir}' '
 }
 
 # Git: branch/detached head, dirty status.
-_prompt_eriner_git() {
+_prompt_zircon_git() {
   if [[ -n ${git_info} ]]; then
     local git_color
     if [[ -n ${(e)git_info[dirty]} ]]; then
@@ -70,7 +70,7 @@ _prompt_eriner_git() {
     else
       git_color=${CLEAN_COLOR}
     fi
-    _prompt_eriner_standout_segment ${git_color} ' '${(e)git_info[prompt]}' '
+    _prompt_zircon_standout_segment ${git_color} ' '${(e)git_info[prompt]}' '
   fi
 }
 
@@ -97,5 +97,5 @@ if (( ${+functions[git-info]} )); then
   autoload -Uz add-zsh-hook && add-zsh-hook precmd git-info
 fi
 
-PS1='$(_prompt_eriner_main)'
+PS1='$(_prompt_zircon_main)'
 unset RPS1
