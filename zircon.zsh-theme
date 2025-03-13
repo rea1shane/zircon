@@ -1,6 +1,10 @@
 # vim:et sts=2 sw=2 ft=zsh
 
-_prompt_zircon_main() {
+#
+# Left side
+#
+
+_prompt_zircon_left() {
   # This runs in a subshell
   RETVAL=${?}
   BG_COLOR=
@@ -95,5 +99,14 @@ if (( ${+functions[git-info]} )); then
   autoload -Uz add-zsh-hook && add-zsh-hook precmd git-info
 fi
 
-PS1='$(_prompt_zircon_main)'
-unset RPS1
+PS1='$(_prompt_zircon_left)'
+
+#
+# Right side
+#
+
+_prompt_zircon_right() {
+  # This runs in a subshell
+}
+
+RPS1='$(_prompt_zircon_right)'
