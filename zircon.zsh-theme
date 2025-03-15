@@ -43,7 +43,7 @@ _prompt_zircon_end() {
 # spawned shell? Python venv activated? Who and where am I (user@hostname)?
 _prompt_zircon_status() {
   local segment=
-  if (( RETVAL )) segment+=' %F{red}'${RETVAL}
+  if (( RETVAL )) segment+=' %F{red}✘'
   if (( EUID == 0 )) segment+=' %F{yellow}⚡'
   if (( ${#jobstates} )) segment+=' %F{cyan}⚙'
   if (( RANGER_LEVEL )) segment+=' %F{cyan}r'
