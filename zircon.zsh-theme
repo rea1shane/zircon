@@ -5,6 +5,7 @@ _prompt_zircon_main() {
   RETVAL=${?}
   BG_COLOR=
 
+  _prompt_zircon_execution
   _prompt_zircon_status
   _prompt_zircon_pwd
   _prompt_zircon_git
@@ -38,6 +39,11 @@ _prompt_zircon_end() {
 ### Prompt components
 # Each component will draw itself, or hide itself if no information needs to
 # be shown.
+
+# Execution: start/stop time and duration of the previous command.
+_prompt_zircon_execution() {
+  print -n "%F{white}${execution_start_info}${execution_duration_info}%f"
+}
 
 # Status: Was there an error? Am I root? Are there background jobs? Ranger
 # spawned shell? Python venv activated? Who and where am I (user@hostname)?
@@ -82,6 +88,18 @@ typeset -g VIRTUAL_ENV_DISABLE_PROMPT=1
 
 setopt nopromptbang prompt{cr,percent,sp,subst}
 
+# Execution
+zstyle ':zim:execution-info' duration-threshold 0
+zstyle ':zim:execution-info' start-format       '--------
+Executed at %Y-%m-%d %H:%M:%S'
+zstyle ':zim:execution-info' duration-format    ', took %d.
+'
+
+autoload -Uz add-zsh-hook
+add-zsh-hook preexec execution-info-preexec
+add-zsh-hook precmd  execution-info-precmd
+
+# Git
 typeset -gA git_info
 if (( ${+functions[git-info]} )); then
   zstyle ':zim:git-info:branch' format ' %b'
