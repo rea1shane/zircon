@@ -1,4 +1,4 @@
-# zircon
+# rea1shane/zircon
 
 A fork of the Zim official theme [eriner](https://github.com/zimfw/eriner).
 
