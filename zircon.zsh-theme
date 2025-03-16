@@ -42,7 +42,16 @@ _prompt_zircon_end() {
 
 # Execution: start/stop time and duration of the last command.
 _prompt_zircon_execution() {
-  print -n "%F{white}${execution_start_info}${execution_duration_info}%f"
+  local segment=
+  if [[ -n ${execution_start_info} ]] segment+=${execution_start_info}
+  if [[ -n ${execution_duration_info} ]] segment+=${execution_duration_info}
+  if (( RETVAL )) segment+=", returned ${RETVAL}"
+  if [[ -n ${segment} ]]; then
+    segment="--------
+${segment}.
+"
+    print -n "%F{white}${segment}%f"
+  fi
 }
 
 # Status: Was there an error? Am I root? Are there background jobs? Ranger
@@ -92,10 +101,8 @@ setopt nopromptbang prompt{cr,percent,sp,subst}
 
 # Execution
 zstyle ':zim:execution-info' duration-threshold 0
-zstyle ':zim:execution-info' start-format       '--------
-Executed at %Y-%m-%d %H:%M:%S'
-zstyle ':zim:execution-info' duration-format    ', took %d.
-'
+zstyle ':zim:execution-info' start-format       'Executed at %Y-%m-%d %H:%M:%S'
+zstyle ':zim:execution-info' duration-format    ', took %d'
 
 autoload -Uz add-zsh-hook
 add-zsh-hook preexec execution-info-preexec
