@@ -45,7 +45,9 @@ _prompt_zircon_execution() {
   local segment=
   if [[ -n ${execution_start_info} ]] segment+=${execution_start_info}
   if [[ -n ${execution_duration_info} ]] segment+=${execution_duration_info}
-  if (( RETVAL )) segment+=", returned ${RETVAL}"
+  if [[ -n ${execution_start_info} ]]; then
+    if (( RETVAL )) segment+=", returned ${RETVAL}"
+  fi
   if [[ -n ${segment} ]]; then
     segment="--------
 ${segment}.
