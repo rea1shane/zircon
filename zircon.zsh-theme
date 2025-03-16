@@ -40,7 +40,7 @@ _prompt_zircon_end() {
 # Each component will draw itself, or hide itself if no information needs to
 # be shown.
 
-# Execution: start/stop time and duration of the previous command.
+# Execution: start/stop time and duration of the last command.
 _prompt_zircon_execution() {
   print -n "%F{white}${execution_start_info}${execution_duration_info}%f"
 }
@@ -49,7 +49,6 @@ _prompt_zircon_execution() {
 # spawned shell? Python venv activated? Who and where am I (user@hostname)?
 _prompt_zircon_status() {
   local segment=
-  if (( RETVAL )) segment+=' %F{red}✘'
   if (( EUID == 0 )) segment+=' %F{yellow}⚡'
   if (( ${#jobstates} )) segment+=' %F{cyan}⚙'
   if (( RANGER_LEVEL )) segment+=' %F{cyan}r'
@@ -62,9 +61,11 @@ _prompt_zircon_status() {
 
 # Pwd: current working directory.
 _prompt_zircon_pwd() {
+  local pwd_bg_color=${PWD_COLOR}
+  if (( RETVAL )) pwd_bg_color=${ERR_COLOR}
   local current_dir
   prompt-pwd current_dir
-  _prompt_zircon_standout_segment ${PWD_COLOR} ' '${current_dir}' '
+  _prompt_zircon_standout_segment ${pwd_bg_color} ' '${current_dir}' '
 }
 
 # Git: branch/detached head, dirty status.
@@ -82,6 +83,7 @@ _prompt_zircon_git() {
 
 if (( ! ${+STATUS_COLOR} )) typeset -g STATUS_COLOR=black
 if (( ! ${+PWD_COLOR} )) typeset -g PWD_COLOR=cyan
+if (( ! ${+ERR_COLOR} )) typeset -g ERR_COLOR=red
 if (( ! ${+CLEAN_COLOR} )) typeset -g CLEAN_COLOR=green
 if (( ! ${+DIRTY_COLOR} )) typeset -g DIRTY_COLOR=yellow
 typeset -g VIRTUAL_ENV_DISABLE_PROMPT=1
