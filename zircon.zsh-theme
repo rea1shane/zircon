@@ -92,7 +92,7 @@ _prompt_zircon_git() {
 }
 
 if (( ! ${+STATUS_COLOR} )) typeset -g STATUS_COLOR=black
-if (( ! ${+PWD_COLOR} )) typeset -g PWD_COLOR=cyan
+if (( ! ${+PWD_COLOR} )) typeset -g PWD_COLOR=blue
 if (( ! ${+ERR_COLOR} )) typeset -g ERR_COLOR=red
 if (( ! ${+CLEAN_COLOR} )) typeset -g CLEAN_COLOR=green
 if (( ! ${+DIRTY_COLOR} )) typeset -g DIRTY_COLOR=yellow
@@ -115,7 +115,7 @@ if (( ${+functions[git-info]} )); then
   zstyle ':zim:git-info:branch' format ' %b'
   zstyle ':zim:git-info:commit' format '➦ %c'
   zstyle ':zim:git-info:action' format ' (%s)'
-  zstyle ':zim:git-info:dirty' format ' ±'
+  zstyle ':zim:git-info:dirty' format ' ●'
   zstyle ':zim:git-info:keys' format \
       'prompt' '%b%c%s%D' \
       'dirty' '%D'
