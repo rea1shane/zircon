@@ -102,12 +102,12 @@ setopt nopromptbang prompt{cr,percent,sp,subst}
 
 # Execution
 zstyle ':zim:execution-info' duration-threshold 0
-zstyle ':zim:execution-info' start-format       'Executed at %Y-%m-%d %H:%M:%S'
-zstyle ':zim:execution-info' duration-format    ', took %d'
+zstyle ':zim:execution-info' start-format 'Executed at %Y-%m-%d %H:%M:%S'
+zstyle ':zim:execution-info' duration-format ', took %d'
 
 autoload -Uz add-zsh-hook
 add-zsh-hook preexec execution-info-preexec
-add-zsh-hook precmd  execution-info-precmd
+add-zsh-hook precmd execution-info-precmd
 
 # Git
 typeset -gA git_info
