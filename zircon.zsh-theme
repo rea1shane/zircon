@@ -61,9 +61,9 @@ ${segment}.
 _prompt_zircon_status() {
   local segment=
   if (( EUID == 0 )) segment+=' %F{yellow}⚡'
-  if (( ${#jobstates} )) segment+=' %F{cyan}⚙'
-  if [[ -n ${VIRTUAL_ENV} ]] segment+=" %F{cyan}${VIRTUAL_ENV:t}"
-  if [[ -n ${SSH_TTY} ]] segment+=" %F{%(!.yellow.default)}%n@%m"
+  if (( ${#jobstates} )) segment+=" %F{yellow}[${#jobstates}]"
+  if [[ -n ${VIRTUAL_ENV} ]] segment+=" %F{blue}(${VIRTUAL_ENV:t})"
+  if [[ -n ${SSH_TTY} ]] segment+=" %F{%(!.yellow.green)}%n@%m"
   if [[ -n ${segment} ]]; then
     _prompt_zircon_segment ${STATUS_COLOR} ${segment}' '
   fi
