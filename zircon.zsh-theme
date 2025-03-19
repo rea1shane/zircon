@@ -52,7 +52,7 @@ _prompt_zircon_execution() {
     segment="--------
 ${segment}.
 "
-    print -n "%F{white}${segment}%f"
+    print -n "\033[90m${segment}\033[0m"
   fi
 }
 
