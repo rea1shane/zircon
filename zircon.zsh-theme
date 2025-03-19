@@ -50,9 +50,8 @@ _prompt_zircon_execution() {
   fi
   if [[ -n ${segment} ]]; then
     segment="--------
-${segment}.
-"
-    print -n "\033[90m${segment}\033[0m"
+${segment}."
+    print "\033[90m${segment}\033[0m"
   fi
 }
 
