@@ -3,7 +3,17 @@
 _prompt_eriner_main() {
   # This runs in a subshell
   RETVAL=${?}
-  BG_COLOR=
+  CURRENT_BG=
+  case ${KEYMAP} in
+    vicmd)
+      SEGMENT_SEPARATOR='%S%s'
+      STANDOUT_SEGMENT_SEPARATOR='%s%S'
+      ;;
+    *)
+      SEGMENT_SEPARATOR=''
+      STANDOUT_SEGMENT_SEPARATOR=${SEGMENT_SEPARATOR}
+      ;;
+  esac
 
   _prompt_eriner_status
   _prompt_eriner_pwd
@@ -18,21 +28,21 @@ _prompt_eriner_main() {
 # new segment.
 _prompt_eriner_segment() {
   print -n "%K{${1}}"
-  if [[ -n ${BG_COLOR} ]] print -n "%F{${BG_COLOR}}"
+  if [[ -n ${CURRENT_BG} ]] print -n "%F{${CURRENT_BG}}${SEGMENT_SEPARATOR}"
   print -n ${2}
-  BG_COLOR=${1}
+  CURRENT_BG=${1}
 }
 
 _prompt_eriner_standout_segment() {
   print -n "%S%F{${1}}"
-  if [[ -n ${BG_COLOR} ]] print -n "%K{${BG_COLOR}}%k"
+  if [[ -n ${CURRENT_BG} ]] print -n "%K{${CURRENT_BG}}${STANDOUT_SEGMENT_SEPARATOR}%k"
   print -n "${2}%s"
-  BG_COLOR=${1}
+  CURRENT_BG=${1}
 }
 
 # End the prompt, closing last segment.
 _prompt_eriner_end() {
-  print -n "%k%F{${BG_COLOR}}%f "
+  print -n "%k%F{${CURRENT_BG}}${SEGMENT_SEPARATOR}%f "
 }
 
 ### Prompt components
@@ -77,6 +87,12 @@ _prompt_eriner_git() {
     _prompt_eriner_standout_segment ${git_color} ' '${(e)git_info[prompt]}' '
   fi
 }
+
+zle-keymap-select() {
+  zle reset-prompt
+  zle -R
+}
+zle -N zle-keymap-select
 
 if (( ! ${+STATUS_COLOR} )) typeset -g STATUS_COLOR=black
 if (( ! ${+PWD_COLOR} )) typeset -g PWD_COLOR=cyan
