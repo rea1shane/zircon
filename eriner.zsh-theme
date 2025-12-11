@@ -88,11 +88,12 @@ _prompt_eriner_git() {
   fi
 }
 
-zle-keymap-select() {
-  zle reset-prompt
-  zle -R
-}
-zle -N zle-keymap-select
+if (( ! ${+functions[_prompt_eriner_keymap_select]} )); then
+  functions[_prompt_eriner_keymap_select]=${widgets[zle-keymap-select]#user:}'
+zle reset-prompt
+zle -R'
+  zle -N zle-keymap-select _prompt_eriner_keymap_select
+fi
 
 if (( ! ${+STATUS_COLOR} )) typeset -g STATUS_COLOR=black
 if (( ! ${+PWD_COLOR} )) typeset -g PWD_COLOR=cyan
