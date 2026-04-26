@@ -9,7 +9,7 @@ However, it goes a step further: everything from the current user and hostname
 to whether the last call exited with an error to whether background jobs are
 running in this shell will all be displayed automatically when appropriate.
 
-<img width="706" src="https://raw.githubusercontent.com/rea1shane/zircon/master/screenshot.png" alt="Afterglow Theme">
+<img width="706" src="https://raw.githubusercontent.com/rea1shane/zircon/master/screenshot.png">
 
 ## What does it show?
 
