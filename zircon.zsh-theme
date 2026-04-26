@@ -72,7 +72,7 @@ _prompt_zircon_status() {
   if (( EUID == 0 )) segment+=' %F{yellow}⚡'
   if (( ${#jobstates} )) segment+=" %F{yellow}[${#jobstates}]"
   if [[ -n ${VIRTUAL_ENV_PROMPT} ]]; then
-    segment+=' %F{blue}'(${VIRTUAL_ENV_PROMPT})
+    segment+=' %F{blue}'${VIRTUAL_ENV_PROMPT% }
   elif [[ -n ${VIRTUAL_ENV} ]]; then
     segment+=' %F{blue}'(${VIRTUAL_ENV:t})
   fi
