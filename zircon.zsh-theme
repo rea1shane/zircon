@@ -61,7 +61,7 @@ _prompt_zircon_execution() {
   if [[ -n ${segment} ]]; then
     segment="--------
 ${segment}."
-    print "%F{244}${segment}%f"
+    print "%{\033[90m%}${segment}%{\033[0m%}"
   fi
 }
 
