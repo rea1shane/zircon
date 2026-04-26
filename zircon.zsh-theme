@@ -163,6 +163,7 @@ add-zsh-hook precmd _prompt_zircon_precmd
 # Git
 typeset -gA git_info
 if (( ${+functions[git-info]} )); then
+  zstyle ':zim:git-info' verbose yes
   zstyle ':zim:git-info:branch' format ' %b'
   zstyle ':zim:git-info:commit' format '➦ %c'
   zstyle ':zim:git-info:action' format ' (%s)'
