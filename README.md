@@ -21,11 +21,12 @@ running in this shell will all be displayed automatically when appropriate.
   - `⚡` when you're root.
   - Background jobs count when there are background jobs.
   - Python [venv](https://docs.python.org/3/library/venv.html) indicator.
-  - `username@hostname` when in a ssh session.
+  - `username@hostname` when in an SSH session.
 - Working directory segment.
   - Red background when there was an error.
 - Git segment (background color varies if working tree is clean or dirty):
   - Current branch name, or commit short hash when in ['detached HEAD' state](https://git-scm.com/docs/git-checkout#_detached_head).
+  - Git action, when there's an operation in progress.
   - `●` when in a dirty working tree.
 
 ## Settings
@@ -63,7 +64,9 @@ Use the following command to override a git-info context format:
 For detailed information about these and other git-info settings, check the
 [git-info documentation](https://github.com/zimfw/git-info/blob/master/README.md#settings).
 
-These advanced settings must be overridden after the theme is initialized.
+These advanced settings must be defined at the bottom of your `~/.zshrc`, after
+the modules are initialized with `source ${ZIM_HOME}/init.zsh`, in order to
+override the theme defaults.
 
 ## Requirements
 
@@ -71,5 +74,5 @@ In order for this theme to render correctly, a font with Powerline symbols is
 required. A simple way to install a font with Powerline symbols is to follow the
 [instructions here](https://github.com/powerline/fonts/blob/master/README.rst#installation).
 
-Requires rea1shane's [execution-info](https://github.com/rea1shane/execution-info) module to show the last execution's start/end time and duration, Zim's [prompt-pwd](https://github.com/zimfw/prompt-pwd) module to show the current working directory, and
-[git-info](https://github.com/zimfw/git-info) to show git information.
+Requires rea1shane's [execution-info](https://github.com/rea1shane/execution-info) module to show the last execution's start/end time and duration, Zim Framework's [prompt-pwd](https://github.com/zimfw/prompt-pwd) module to show the current working
+directory, and [git-info](https://github.com/zimfw/git-info) to show git information.

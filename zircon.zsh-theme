@@ -3,7 +3,17 @@
 _prompt_zircon_main() {
   # This runs in a subshell
   RETVAL=${?}
-  BG_COLOR=
+  CURRENT_BG=
+  case ${KEYMAP} in
+    vicmd)
+      SEGMENT_SEPARATOR='%S%s'
+      STANDOUT_SEGMENT_SEPARATOR='%s%S'
+      ;;
+    *)
+      SEGMENT_SEPARATOR=''
+      STANDOUT_SEGMENT_SEPARATOR=${SEGMENT_SEPARATOR}
+      ;;
+  esac
 
   _prompt_zircon_execution
   _prompt_zircon_status
@@ -19,21 +29,21 @@ _prompt_zircon_main() {
 # new segment.
 _prompt_zircon_segment() {
   print -n "%K{${1}}"
-  if [[ -n ${BG_COLOR} ]] print -n "%F{${BG_COLOR}}"
+  if [[ -n ${CURRENT_BG} ]] print -n "%F{${CURRENT_BG}}${SEGMENT_SEPARATOR}"
   print -n ${2}
-  BG_COLOR=${1}
+  CURRENT_BG=${1}
 }
 
 _prompt_zircon_standout_segment() {
   print -n "%S%F{${1}}"
-  if [[ -n ${BG_COLOR} ]] print -n "%K{${BG_COLOR}}%k"
+  if [[ -n ${CURRENT_BG} ]] print -n "%K{${CURRENT_BG}}${STANDOUT_SEGMENT_SEPARATOR}%k"
   print -n "${2}%s"
-  BG_COLOR=${1}
+  CURRENT_BG=${1}
 }
 
 # End the prompt, closing last segment.
 _prompt_zircon_end() {
-  print -n "%k%F{${BG_COLOR}}%f "
+  print -n "%k%F{${CURRENT_BG}}${SEGMENT_SEPARATOR}%f "
 }
 
 ### Prompt components
@@ -61,8 +71,12 @@ _prompt_zircon_status() {
   local segment=
   if (( EUID == 0 )) segment+=' %F{yellow}⚡'
   if (( ${#jobstates} )) segment+=" %F{yellow}[${#jobstates}]"
-  if [[ -n ${VIRTUAL_ENV} ]] segment+=" %F{blue}(${VIRTUAL_ENV:t})"
-  if [[ -n ${SSH_TTY} ]] segment+=" %F{%(!.yellow.green)}%n@%m"
+  if [[ -n ${VIRTUAL_ENV_PROMPT} ]]; then
+    segment+=' %F{blue}'(${VIRTUAL_ENV_PROMPT})
+  elif [[ -n ${VIRTUAL_ENV} ]]; then
+    segment+=' %F{blue}'(${VIRTUAL_ENV:t})
+  fi
+  if [[ -n ${SSH_TTY} ]] segment+=' %F{%(!.yellow.green)}%n@%m'
   if [[ -n ${segment} ]]; then
     _prompt_zircon_segment ${STATUS_COLOR} ${segment}' '
   fi
@@ -89,6 +103,13 @@ _prompt_zircon_git() {
     _prompt_zircon_standout_segment ${git_color} ' '${(e)git_info[prompt]}' '
   fi
 }
+
+if (( ! ${+functions[_prompt_zircon_keymap_select]} )); then
+  functions[_prompt_zircon_keymap_select]=${widgets[zle-keymap-select]#user:}'
+zle reset-prompt
+zle -R'
+  zle -N zle-keymap-select _prompt_zircon_keymap_select
+fi
 
 if (( ! ${+STATUS_COLOR} )) typeset -g STATUS_COLOR=black
 if (( ! ${+PWD_COLOR} )) typeset -g PWD_COLOR=blue
