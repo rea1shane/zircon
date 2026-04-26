@@ -104,6 +104,34 @@ _prompt_zircon_git() {
   fi
 }
 
+_prompt_zircon_is_clear_command() {
+  local -a command_words
+  command_words=("${(z)1}")
+  (( ${#command_words} )) || return 1
+
+  if [[ ${command_words[1]} == command ]]; then
+    shift command_words
+  fi
+
+  [[ ${command_words[1]} == clear || ${command_words[1]} == \\clear ]] || return 1
+  (( ${#command_words} == 1 ))
+}
+
+_prompt_zircon_preexec() {
+  if _prompt_zircon_is_clear_command "${1}"; then
+    _prompt_zircon_suppress_execution_info=1
+  else
+    _prompt_zircon_suppress_execution_info=0
+  fi
+}
+
+_prompt_zircon_precmd() {
+  if (( _prompt_zircon_suppress_execution_info )); then
+    unset execution_start_info execution_duration_info
+    _prompt_zircon_suppress_execution_info=0
+  fi
+}
+
 if (( ! ${+functions[_prompt_zircon_keymap_select]} )); then
   functions[_prompt_zircon_keymap_select]=${widgets[zle-keymap-select]#user:}'
 zle reset-prompt
@@ -117,6 +145,7 @@ if (( ! ${+ERR_COLOR} )) typeset -g ERR_COLOR=red
 if (( ! ${+CLEAN_COLOR} )) typeset -g CLEAN_COLOR=green
 if (( ! ${+DIRTY_COLOR} )) typeset -g DIRTY_COLOR=yellow
 typeset -g VIRTUAL_ENV_DISABLE_PROMPT=1
+typeset -g _prompt_zircon_suppress_execution_info=0
 
 setopt nopromptbang prompt{cr,percent,sp,subst}
 
@@ -126,8 +155,10 @@ zstyle ':zim:execution-info' start-format 'Executed at %Y-%m-%d %H:%M:%S'
 zstyle ':zim:execution-info' duration-format ', took %d'
 
 autoload -Uz add-zsh-hook
+add-zsh-hook preexec _prompt_zircon_preexec
 add-zsh-hook preexec execution-info-preexec
 add-zsh-hook precmd execution-info-precmd
+add-zsh-hook precmd _prompt_zircon_precmd
 
 # Git
 typeset -gA git_info
