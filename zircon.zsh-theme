@@ -95,10 +95,10 @@ _prompt_zircon_pwd() {
 _prompt_zircon_git() {
   if [[ -n ${git_info} ]]; then
     local git_color
-    if [[ -n ${(e)git_info[dirty]} ]]; then
-      git_color=${DIRTY_COLOR}
-    else
+    if [[ -n ${(e)git_info[clean]} ]]; then
       git_color=${CLEAN_COLOR}
+    else
+      git_color=${DIRTY_COLOR}
     fi
     _prompt_zircon_standout_segment ${git_color} ' '${(e)git_info[prompt]}' '
   fi
@@ -164,13 +164,13 @@ add-zsh-hook precmd _prompt_zircon_precmd
 typeset -gA git_info
 if (( ${+functions[git-info]} )); then
   zstyle ':zim:git-info' verbose yes
-  zstyle ':zim:git-info:branch' format ' %b'
+  zstyle ':zim:git-info:branch' format '%b'
   zstyle ':zim:git-info:commit' format '➦ %c'
   zstyle ':zim:git-info:action' format ' (%s)'
-  zstyle ':zim:git-info:dirty' format ' ●'
+  zstyle ':zim:git-info:clean' format '1'
   zstyle ':zim:git-info:keys' format \
-      'prompt' '%b%c%s%D' \
-      'dirty' '%D'
+      'prompt' '%b%c%s' \
+      'clean' '%C'
 
   autoload -Uz add-zsh-hook && add-zsh-hook precmd git-info
 fi

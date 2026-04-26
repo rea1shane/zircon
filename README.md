@@ -27,7 +27,7 @@ running in this shell will all be displayed automatically when appropriate.
 - Git segment (background color varies if working tree is clean or dirty):
   - Current branch name, or commit short hash when in ['detached HEAD' state](https://git-scm.com/docs/git-checkout#_detached_head).
   - Git action, when there's an operation in progress.
-  - `●` when in a dirty working tree, including untracked files.
+  - Yellow background when in a dirty working tree, including untracked files.
 
 ## Settings
 
@@ -52,10 +52,9 @@ context formats:
 
 | Context name | Description         | Default format |
 | ------------ | ------------------- | -------------- |
-| branch       | Branch name         | ` %b`         |
+| branch       | Branch name         | `%b`           |
 | commit       | Commit short hash   | `➦ %c`         |
 | action       | Special action name | ` (%s)`        |
-| dirty        | Dirty state         | ` ●`           |
 
 Use the following command to override a git-info context format:
 
