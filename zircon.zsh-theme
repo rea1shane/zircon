@@ -15,6 +15,7 @@ _prompt_zircon_main() {
       ;;
   esac
 
+  _prompt_zircon_execution
   _prompt_zircon_status
   _prompt_zircon_pwd
   _prompt_zircon_git
@@ -51,17 +52,16 @@ _prompt_zircon_end() {
 
 # Execution: start/stop time and duration of the last command.
 _prompt_zircon_execution() {
-  local retval=${1:-${RETVAL}}
   local segment=
   if [[ -n ${execution_start_info} ]] segment+=${execution_start_info}
   if [[ -n ${execution_duration_info} ]] segment+=${execution_duration_info}
   if [[ -n ${execution_start_info} ]]; then
-    if (( retval )) segment+=", returned ${retval}"
+    if (( RETVAL )) segment+=", returned ${RETVAL}"
   fi
   if [[ -n ${segment} ]]; then
     segment="--------
 ${segment}."
-    print -r -- $'\033[90m'"${segment}"$'\033[0m'
+    print "%{\033[90m%}${segment}%{\033[0m%}"
   fi
 }
 
@@ -122,7 +122,6 @@ _prompt_zircon_is_clear_command() {
 }
 
 _prompt_zircon_preexec() {
-  _prompt_zircon_has_pending_execution_info=1
   if _prompt_zircon_is_clear_command "${1}"; then
     _prompt_zircon_suppress_execution_info=1
   else
@@ -131,21 +130,10 @@ _prompt_zircon_preexec() {
 }
 
 _prompt_zircon_precmd() {
-  local retval=${?}
   if (( _prompt_zircon_suppress_execution_info )); then
     unset execution_start_info execution_duration_info
     _prompt_zircon_suppress_execution_info=0
-    _prompt_zircon_has_pending_execution_info=0
-    return ${retval}
   fi
-
-  if (( _prompt_zircon_has_pending_execution_info )); then
-    _prompt_zircon_execution ${retval}
-  fi
-
-  unset execution_start_info execution_duration_info
-  _prompt_zircon_has_pending_execution_info=0
-  return ${retval}
 }
 
 if (( ! ${+functions[_prompt_zircon_keymap_select]} )); then
@@ -162,7 +150,6 @@ if (( ! ${+CLEAN_COLOR} )) typeset -g CLEAN_COLOR=green
 if (( ! ${+DIRTY_COLOR} )) typeset -g DIRTY_COLOR=yellow
 typeset -g VIRTUAL_ENV_DISABLE_PROMPT=1
 typeset -g _prompt_zircon_suppress_execution_info=0
-typeset -g _prompt_zircon_has_pending_execution_info=0
 
 setopt nopromptbang prompt{cr,percent,sp,subst}
 
