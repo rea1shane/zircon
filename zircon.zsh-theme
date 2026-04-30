@@ -100,7 +100,11 @@ _prompt_zircon_git() {
     else
       git_color=${DIRTY_COLOR}
     fi
-    _prompt_zircon_standout_segment ${git_color} ' '${(e)git_info[prompt]}' '
+    local git_prompt=${(e)git_info[ref]}
+    local git_status=${(e)git_info[unindexed]}${(e)git_info[indexed]}
+    if [[ -n ${git_status} ]] git_prompt+=' '${git_status}
+    git_prompt+=${(e)git_info[action]}
+    _prompt_zircon_standout_segment ${git_color} ' '${git_prompt}' '
   fi
 }
 
@@ -167,9 +171,14 @@ if (( ${+functions[git-info]} )); then
   zstyle ':zim:git-info:branch' format '%b'
   zstyle ':zim:git-info:commit' format '➦ %c'
   zstyle ':zim:git-info:action' format ' (%s)'
+  zstyle ':zim:git-info:indexed' format '✚'
+  zstyle ':zim:git-info:unindexed' format '●'
   zstyle ':zim:git-info:clean' format '1'
   zstyle ':zim:git-info:keys' format \
-      'prompt' '%b%c%s' \
+      'ref' '%b%c' \
+      'action' '%s' \
+      'indexed' '%i' \
+      'unindexed' '%I' \
       'clean' '%C'
 
   autoload -Uz add-zsh-hook && add-zsh-hook precmd git-info

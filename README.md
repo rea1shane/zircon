@@ -28,6 +28,9 @@ running in this shell will all be displayed automatically when appropriate.
   - Current branch name, or commit short hash when in ['detached HEAD' state](https://git-scm.com/docs/git-checkout#_detached_head).
   - Git action, when there's an operation in progress.
   - Yellow background when in a dirty working tree, including untracked files.
+    - `●` after the branch name when tracked files have unstaged changes.
+    - `✚` after the branch name when there are staged changes to commit.
+    - `●✚` after the branch name when both of the above are present.
 
 ## Settings
 
@@ -50,11 +53,13 @@ You can customize how the current working directory is shown with the
 The git indicators can be customized by changing the following git-info module
 context formats:
 
-| Context name | Description         | Default format |
-| ------------ | ------------------- | -------------- |
-| branch       | Branch name         | `%b`           |
-| commit       | Commit short hash   | `➦ %c`         |
-| action       | Special action name | ` (%s)`        |
+| Context name | Description                       | Default format |
+| ------------ | --------------------------------- | -------------- |
+| branch       | Branch name                       | `%b`           |
+| commit       | Commit short hash                 | `➦ %c`         |
+| action       | Special action name               | ` (%s)`        |
+| indexed      | Staged changes                    | `✚`            |
+| unindexed    | Unstaged changes in tracked files | `●`            |
 
 Use the following command to override a git-info context format:
 
