@@ -29,6 +29,7 @@ What does it show?
       ['detached HEAD' state].
     * Git action, when there's an operation in progress.
     * `$` when there are stashed states.
+    * `?` when there are untracked files.
     * `!` when there are modified files.
     * `+` when there are staged files.
     * `>` and/or `<` when there are commits ahead and/or behind of remote,
@@ -76,6 +77,7 @@ context formats:
 | commit       | Commit short hash        | `:%c`          |
 | action       | Special action name      | ` (%s)`        |
 | stashed      | Stashed changes          | `\$`           |
+| untracked    | Untracked files          | `?`            |
 | unindexed    | Unstaged changes         | `!`            |
 | indexed      | Staged changes           | `+`            |
 | ahead        | Ahead of upstream        | `>`            |

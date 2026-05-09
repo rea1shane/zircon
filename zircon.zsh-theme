@@ -129,17 +129,19 @@ add-zsh-hook precmd execution-info-precmd
 
 typeset -gA git_info
 if (( ${+functions[git-info]} )); then
+  zstyle ':zim:git-info' verbose yes
   zstyle ':zim:git-info:branch' format '%b'
   zstyle ':zim:git-info:commit' format ':%c'
   zstyle ':zim:git-info:action' format ' (%s)'
   zstyle ':zim:git-info:stashed' format '\$'
+  zstyle ':zim:git-info:untracked' format '?'
   zstyle ':zim:git-info:unindexed' format '!'
   zstyle ':zim:git-info:indexed' format '+'
   zstyle ':zim:git-info:ahead' format '>'
   zstyle ':zim:git-info:behind' format '<'
   zstyle ':zim:git-info:dirty' format ' ±'
   zstyle ':zim:git-info:keys' format \
-      'status' '%S%I%i%A%B' \
+      'status' '%S%u%I%i%A%B' \
       'prompt' '%b%c%s${git_info[status]:+" [${(e)git_info[status]}]"}' \
       'dirty' '%D'
 
