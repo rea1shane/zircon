@@ -9,7 +9,10 @@ However, it goes a step further: information such as the current user and
 hostname or whether the last call exited with an error will be displayed
 automatically when appropriate.
 
-<img width="706" src="https://raw.githubusercontent.com/rea1shane/zircon/master/screenshot.png">
+<img
+  width="706"
+  src="https://raw.githubusercontent.com/rea1shane/zircon/master/screenshot.png"
+>
 
 ## What does it show?
 
@@ -22,7 +25,8 @@ automatically when appropriate.
 - Working directory segment.
   - Red background when there was an error.
 - Git segment (background color varies if working tree is clean or dirty):
-  - Current branch name, or commit short hash when in ['detached HEAD' state](https://git-scm.com/docs/git-checkout#_detached_head).
+  - Current branch name, or commit short hash when in
+    ['detached HEAD' state].
   - Git action, when there's an operation in progress.
   - Yellow background when in a dirty working tree, including untracked files.
     - `●` after the branch name when tracked files have unstaged changes.
@@ -34,18 +38,18 @@ automatically when appropriate.
 The background color for each segment can be customized with an environment
 variable. If the variable is not defined, the respective default value is used.
 
-| Variable     | Description                                             | Default value |
-| ------------ | ------------------------------------------------------- | ------------- |
-| STATUS_COLOR | Status segment color                                    | black         |
-| PWD_COLOR    | Working directory segment color                         | blue          |
-| ERR_COLOR    | Working directory segment color when there was an error | red           |
-| CLEAN_COLOR  | Clean git working tree segment color                    | green         |
-| DIRTY_COLOR  | Dirty git working tree segment color                    | yellow        |
+| Variable | Description | Default value |
+| --- | --- | --- |
+| STATUS_COLOR | Status segment color | black |
+| PWD_COLOR | Working directory segment color | blue |
+| ERR_COLOR | Working directory segment color when there was an error | red |
+| CLEAN_COLOR | Clean git working tree segment color | green |
+| DIRTY_COLOR | Dirty git working tree segment color | yellow |
 
 ## Advanced settings
 
 You can customize how the current working directory is shown with the
-[prompt-pwd module settings](https://github.com/zimfw/prompt-pwd/blob/master/README.md#settings).
+[prompt-pwd module settings].
 
 The git indicators can be customized by changing the following git-info module
 context formats:
@@ -63,7 +67,7 @@ Use the following command to override a git-info context format:
     zstyle ':zim:git-info:<context_name>' format '<new_format>'
 
 For detailed information about these and other git-info settings, check the
-[git-info documentation](https://github.com/zimfw/git-info/blob/master/README.md#settings).
+[git-info documentation].
 
 These advanced settings must be defined at the bottom of your `~/.zshrc`, after
 the modules are initialized with `source ${ZIM_HOME}/init.zsh`, in order to
@@ -73,7 +77,16 @@ override the theme defaults.
 
 In order for this theme to render correctly, a font with Powerline symbols is
 required. A simple way to install a font with Powerline symbols is to follow the
-[instructions here](https://github.com/powerline/fonts/blob/master/README.rst#installation).
+[instructions here].
 
-Requires rea1shane's [execution-info](https://github.com/rea1shane/execution-info) module to show the last execution's start/end time and duration, Zim Framework's [prompt-pwd](https://github.com/zimfw/prompt-pwd) module to show the current working
-directory, and [git-info](https://github.com/zimfw/git-info) to show git information.
+Requires rea1shane's [execution-info] module to show the last execution's start
+time and duration, Zim Framework's [prompt-pwd] module to show the current
+working directory, and [git-info] to show git information.
+
+['detached HEAD' state]: https://git-scm.com/docs/git-checkout#_detached_head
+[prompt-pwd module settings]: https://github.com/zimfw/prompt-pwd#settings
+[git-info documentation]: https://github.com/zimfw/git-info#settings
+[instructions here]: https://github.com/powerline/fonts#installation
+[execution-info]: https://github.com/rea1shane/execution-info
+[prompt-pwd]: https://github.com/zimfw/prompt-pwd
+[git-info]: https://github.com/zimfw/git-info

@@ -50,7 +50,7 @@ _prompt_zircon_end() {
 # Each component will draw itself, or hide itself if no information needs to
 # be shown.
 
-# Execution: start/stop time and duration of the last command.
+# Execution: start time, duration and return value of the last command.
 _prompt_zircon_execution() {
   local segment=
   if [[ -n ${execution_start_info} ]] segment+=${execution_start_info}
@@ -144,7 +144,6 @@ typeset -g _prompt_zircon_suppress_execution_info=0
 
 setopt nopromptbang prompt{cr,percent,sp,subst}
 
-# Execution
 zstyle ':zim:execution-info' duration-threshold 0
 zstyle ':zim:execution-info' start-format 'Executed at %Y-%m-%d %H:%M:%S'
 zstyle ':zim:execution-info' duration-format ', took %d'
@@ -155,7 +154,6 @@ add-zsh-hook preexec execution-info-preexec
 add-zsh-hook precmd execution-info-precmd
 add-zsh-hook precmd _prompt_zircon_precmd
 
-# Git
 typeset -gA git_info
 if (( ${+functions[git-info]} )); then
   zstyle ':zim:git-info' verbose yes
