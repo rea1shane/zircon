@@ -24,7 +24,7 @@ What does it show?
   * Status segment:
     * `⚙` when there are background jobs.
     * `r` when you're in a [ranger] spawned shell.
-    * Python venv indicator.
+    * Python [venv] indicator.
     * `username@hostname` when in an SSH session.
   * Working directory segment:
     * Red background when the last command exited with an error.
@@ -113,6 +113,7 @@ working directory, and [git-info] to show git information.
 [asciiship]: https://github.com/zimfw/asciiship
 [agnoster]: https://github.com/agnoster/agnoster-zsh-theme
 [ranger]: https://github.com/ranger/ranger
+[venv]: https://docs.python.org/3/library/venv.html
 ['detached HEAD' state]: https://git-scm.com/docs/git-checkout#_detached_head
 [prompt-pwd module settings]: https://github.com/zimfw/prompt-pwd/blob/master/README.md#settings
 [git-info documentation]: https://github.com/zimfw/git-info/blob/master/README.md#settings
