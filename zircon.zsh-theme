@@ -50,7 +50,8 @@ _prompt_zircon_end() {
 # Each component will draw itself, or hide itself if no information needs to
 # be shown.
 
-# Execution: start time, duration and return value of the last command.
+# Execution: When did the last command run? How long did it take? What did it
+# return?
 _prompt_zircon_execution() {
   local segment=
   if [[ -n ${execution_start_info} ]] segment+=${execution_start_info}
@@ -68,7 +69,7 @@ ${segment}."
 # Status: Who and where am I (user@hostname)?
 _prompt_zircon_status() {
   local segment=
-  if [[ -n ${SSH_TTY} ]] segment+=' %F{%(!.yellow.green)}%n@%m'
+  if [[ -n ${SSH_TTY} ]] segment+=' %F{%(!.yellow.default)}%n@%m'
   if [[ -n ${segment} ]]; then
     _prompt_zircon_segment ${STATUS_COLOR} ${segment}' '
   fi
@@ -76,55 +77,27 @@ _prompt_zircon_status() {
 
 # Pwd: current working directory.
 _prompt_zircon_pwd() {
-  local pwd_bg_color=${PWD_COLOR}
-  if (( RETVAL )) pwd_bg_color=${ERR_COLOR}
   local current_dir
   prompt-pwd current_dir
-  _prompt_zircon_standout_segment ${pwd_bg_color} ' '${current_dir}' '
+  local pwd_color
+  if (( RETVAL )); then
+    pwd_color=${ERR_COLOR}
+  else
+    pwd_color=${PWD_COLOR}
+  fi
+  _prompt_zircon_standout_segment ${pwd_color} ' '${current_dir}' '
 }
 
 # Git: branch/detached head, dirty status.
 _prompt_zircon_git() {
   if [[ -n ${git_info} ]]; then
     local git_color
-    if [[ -n ${(e)git_info[clean]} ]]; then
-      git_color=${CLEAN_COLOR}
-    else
+    if [[ -n ${(e)git_info[dirty]} ]]; then
       git_color=${DIRTY_COLOR}
+    else
+      git_color=${CLEAN_COLOR}
     fi
-    local git_prompt=${(e)git_info[ref]}
-    local git_status=${(e)git_info[unindexed]}${(e)git_info[indexed]}
-    if [[ -n ${git_status} ]] git_prompt+=' '${git_status}
-    git_prompt+=${(e)git_info[action]}
-    _prompt_zircon_standout_segment ${git_color} ' '${git_prompt}' '
-  fi
-}
-
-_prompt_zircon_is_clear_command() {
-  local -a command_words
-  command_words=("${(z)1}")
-  (( ${#command_words} )) || return 1
-
-  if [[ ${command_words[1]} == command ]]; then
-    shift command_words
-  fi
-
-  [[ ${command_words[1]} == clear || ${command_words[1]} == \\clear ]] || return 1
-  (( ${#command_words} == 1 ))
-}
-
-_prompt_zircon_preexec() {
-  if _prompt_zircon_is_clear_command "${1}"; then
-    _prompt_zircon_suppress_execution_info=1
-  else
-    _prompt_zircon_suppress_execution_info=0
-  fi
-}
-
-_prompt_zircon_precmd() {
-  if (( _prompt_zircon_suppress_execution_info )); then
-    unset execution_start_info execution_duration_info
-    _prompt_zircon_suppress_execution_info=0
+    _prompt_zircon_standout_segment ${git_color} ' '${(e)git_info[prompt]}' '
   fi
 }
 
@@ -140,35 +113,35 @@ if (( ! ${+PWD_COLOR} )) typeset -g PWD_COLOR=blue
 if (( ! ${+ERR_COLOR} )) typeset -g ERR_COLOR=red
 if (( ! ${+CLEAN_COLOR} )) typeset -g CLEAN_COLOR=green
 if (( ! ${+DIRTY_COLOR} )) typeset -g DIRTY_COLOR=yellow
-typeset -g _prompt_zircon_suppress_execution_info=0
+typeset -g VIRTUAL_ENV_DISABLE_PROMPT=1
 
 setopt nopromptbang prompt{cr,percent,sp,subst}
+
+zstyle ':zim:prompt-pwd:fish-style' dir-length 0
 
 zstyle ':zim:execution-info' duration-threshold 0
 zstyle ':zim:execution-info' start-format 'Executed at %Y-%m-%d %H:%M:%S'
 zstyle ':zim:execution-info' duration-format ', took %d'
 
 autoload -Uz add-zsh-hook
-add-zsh-hook preexec _prompt_zircon_preexec
 add-zsh-hook preexec execution-info-preexec
 add-zsh-hook precmd execution-info-precmd
-add-zsh-hook precmd _prompt_zircon_precmd
 
 typeset -gA git_info
 if (( ${+functions[git-info]} )); then
-  zstyle ':zim:git-info' verbose yes
   zstyle ':zim:git-info:branch' format '%b'
-  zstyle ':zim:git-info:commit' format '➦ %c'
+  zstyle ':zim:git-info:commit' format ':%c'
   zstyle ':zim:git-info:action' format ' (%s)'
-  zstyle ':zim:git-info:indexed' format '✚'
-  zstyle ':zim:git-info:unindexed' format '●'
-  zstyle ':zim:git-info:clean' format '1'
+  zstyle ':zim:git-info:stashed' format '\$'
+  zstyle ':zim:git-info:unindexed' format '!'
+  zstyle ':zim:git-info:indexed' format '+'
+  zstyle ':zim:git-info:ahead' format '>'
+  zstyle ':zim:git-info:behind' format '<'
+  zstyle ':zim:git-info:dirty' format ' ±'
   zstyle ':zim:git-info:keys' format \
-      'ref' '%b%c' \
-      'action' '%s' \
-      'indexed' '%i' \
-      'unindexed' '%I' \
-      'clean' '%C'
+      'status' '%S%I%i%A%B' \
+      'prompt' '%b%c%s${git_info[status]:+" [${(e)git_info[status]}]"}' \
+      'dirty' '%D'
 
   autoload -Uz add-zsh-hook && add-zsh-hook precmd git-info
 fi
