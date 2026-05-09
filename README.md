@@ -23,6 +23,7 @@ What does it show?
     * Return value when the command exited with an error.
   * Status segment:
     * `⚙` when there are background jobs.
+    * `r` when you're in a [ranger] spawned shell.
     * Python venv indicator.
     * `username@hostname` when in an SSH session.
   * Working directory segment:
@@ -111,6 +112,7 @@ working directory, and [git-info] to show git information.
 [eriner]: https://github.com/zimfw/eriner
 [asciiship]: https://github.com/zimfw/asciiship
 [agnoster]: https://github.com/agnoster/agnoster-zsh-theme
+[ranger]: https://github.com/ranger/ranger
 ['detached HEAD' state]: https://git-scm.com/docs/git-checkout#_detached_head
 [prompt-pwd module settings]: https://github.com/zimfw/prompt-pwd/blob/master/README.md#settings
 [git-info documentation]: https://github.com/zimfw/git-info/blob/master/README.md#settings

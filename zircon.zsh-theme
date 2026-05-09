@@ -66,11 +66,12 @@ ${segment}."
   fi
 }
 
-# Status: Are there background jobs? Python venv activated? Who and where am I
-# (user@hostname)?
+# Status: Are there background jobs? Ranger spawned shell? Python venv
+# activated? Who and where am I (user@hostname)?
 _prompt_zircon_status() {
   local segment=
   if (( ${#jobstates} )) segment+=' %F{blue}⚙'
+  if (( RANGER_LEVEL )) segment+=' %F{blue}r'
   if [[ -n ${VIRTUAL_ENV_PROMPT} ]]; then
     segment+=' %F{blue}'${VIRTUAL_ENV_PROMPT}
   elif [[ -n ${VIRTUAL_ENV} ]]; then
