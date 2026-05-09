@@ -8,8 +8,9 @@ The git segment display also references the Zim official [asciiship] theme.
 The aim of this theme is to only show you *relevant* information. Like most
 prompts, it will only show git information when in a git working directory.
 However, it goes a step further: information such as the current SSH identity,
-whether the last call exited with an error, and how long the last command took
-will all be displayed automatically when appropriate.
+whether there are background jobs, whether a Python venv is active, whether the
+last call exited with an error, and how long the last command took will all be
+displayed automatically when appropriate.
 
 <img width="706" src="https://raw.githubusercontent.com/rea1shane/zircon/master/screenshot.png">
 
@@ -21,6 +22,8 @@ What does it show?
     * Duration of the last command.
     * Return value when the command exited with an error.
   * Status segment:
+    * `⚙` when there are background jobs.
+    * Python venv indicator.
     * `username@hostname` when in an SSH session.
   * Working directory segment:
     * Red background when the last command exited with an error.

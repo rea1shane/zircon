@@ -66,9 +66,16 @@ ${segment}."
   fi
 }
 
-# Status: Who and where am I (user@hostname)?
+# Status: Are there background jobs? Python venv activated? Who and where am I
+# (user@hostname)?
 _prompt_zircon_status() {
   local segment=
+  if (( ${#jobstates} )) segment+=' %F{blue}⚙'
+  if [[ -n ${VIRTUAL_ENV_PROMPT} ]]; then
+    segment+=' %F{blue}'${VIRTUAL_ENV_PROMPT}
+  elif [[ -n ${VIRTUAL_ENV} ]]; then
+    segment+=' %F{blue}'${VIRTUAL_ENV:t}
+  fi
   if [[ -n ${SSH_TTY} ]] segment+=' %F{%(!.yellow.default)}%n@%m'
   if [[ -n ${segment} ]]; then
     _prompt_zircon_segment ${STATUS_COLOR} ${segment}' '
