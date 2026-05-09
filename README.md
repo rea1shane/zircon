@@ -5,9 +5,9 @@ Some style changes and more last execution info.
 
 The aim of this theme is to only show you _relevant_ information. Like most
 prompts, it will only show git information when in a git working directory.
-However, it goes a step further: everything from the current user and hostname
-to whether the last call exited with an error to whether background jobs are
-running in this shell will all be displayed automatically when appropriate.
+However, it goes a step further: information such as the current user and
+hostname or whether the last call exited with an error will be displayed
+automatically when appropriate.
 
 <img width="706" src="https://raw.githubusercontent.com/rea1shane/zircon/master/screenshot.png">
 
@@ -18,9 +18,6 @@ running in this shell will all be displayed automatically when appropriate.
   - Execution duration.
   - Return value when there was an error.
 - Status segment:
-  - `⚡` when you're root.
-  - Background jobs count when there are background jobs.
-  - Python [venv](https://docs.python.org/3/library/venv.html) indicator.
   - `username@hostname` when in an SSH session.
 - Working directory segment.
   - Red background when there was an error.

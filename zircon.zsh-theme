@@ -65,17 +65,9 @@ ${segment}."
   fi
 }
 
-# Status: Was there an error? Am I root? Are there background jobs? Ranger
-# spawned shell? Python venv activated? Who and where am I (user@hostname)?
+# Status: Who and where am I (user@hostname)?
 _prompt_zircon_status() {
   local segment=
-  if (( EUID == 0 )) segment+=' %F{yellow}⚡'
-  if (( ${#jobstates} )) segment+=" %F{yellow}[${#jobstates}]"
-  if [[ -n ${VIRTUAL_ENV_PROMPT} ]]; then
-    segment+=' %F{blue}'${VIRTUAL_ENV_PROMPT% }
-  elif [[ -n ${VIRTUAL_ENV} ]]; then
-    segment+=' %F{blue}'(${VIRTUAL_ENV:t})
-  fi
   if [[ -n ${SSH_TTY} ]] segment+=' %F{%(!.yellow.green)}%n@%m'
   if [[ -n ${segment} ]]; then
     _prompt_zircon_segment ${STATUS_COLOR} ${segment}' '
@@ -148,7 +140,6 @@ if (( ! ${+PWD_COLOR} )) typeset -g PWD_COLOR=blue
 if (( ! ${+ERR_COLOR} )) typeset -g ERR_COLOR=red
 if (( ! ${+CLEAN_COLOR} )) typeset -g CLEAN_COLOR=green
 if (( ! ${+DIRTY_COLOR} )) typeset -g DIRTY_COLOR=yellow
-typeset -g VIRTUAL_ENV_DISABLE_PROMPT=1
 typeset -g _prompt_zircon_suppress_execution_info=0
 
 setopt nopromptbang prompt{cr,percent,sp,subst}
